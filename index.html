@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Anthropometric Measurements</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <p class="navbar-brand">Anthropometric Measurements</p>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- 6 -->
+                <li id="home"><a href="/">HOME</a></li>
+                <li id="about"><a href="../about">ABOUT US</a></li>
+                <li id="contact"><a href="../contact">CONTACT US</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        #video_feed {
+            display: block;
+            margin: 0 auto;
+        }
+
+        #start_button,
+        #stop_button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #start_button:hover,
+        #stop_button:hover {
+            background-color: #45a049;
+        }
+
+        #calculated_values_list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 30px;
+        }
+
+        #calculated_values_list li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        #calculated_values_list li span {
+            font-weight: bold;
+            margin-left: 10px;
+            color: #555;
+        }
+
+        #calculated_values_list li .value {
+            display: inline-block;
+            background-color: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container-fluid {
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+
+        .navbar {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+            font-size: 12px;
+            letter-spacing: 5px;
+        }
+
+        .navbar-nav li a:hover {
+            color: #1abc9c !important;
+        }
+
+        .footer-padding {
+            padding-bottom: 60px;
+        }
+
+        .footer {
+            position: absolute;
+            text-align: center;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #1abc9c;
+        }
+
+        .footer p {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #fff;
+        }
+    </style>
+    <script>
+        // Function to update the calculated values in the HTML
+        function updateCalculatedValues(values) {
+            for (const key in values) {
+                if (values.hasOwnProperty(key)) {
+                    const value = values[key];
+                    document.getElementById(key).innerHTML = value;
+                }
+            }
+        }
+
+        function startVideo() {
+            fetch('/start_video', { method: 'POST' });
+        }
+
+        function stopVideo() {
+            fetch('/stop_video', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => updateCalculatedValues(data));
+        }
+    </script>
+</head>
+
+<body>
+    
+        <img id="video_feed" src="{{ url_for('video_feed') }}">
+        <br>
+        <button id="start_button" onclick="startVideo()">Start Video</button>
+        <button id="stop_button" onclick="stopVideo()">Capture</button>
+
+        <div>
+            <h3>Calculated Values:</h3>
+            <ul id="calculated_values_list">
+                <li>Fixed Distance: <span id="fixed_distance"></span></li>
+                <li>Height: <span id="height"></span></li>
+                <li>Left Arm Length: <span id="left_arm_length"></span></li>
+                <li>Left Thigh Length: <span id="left_thigh_length"></span></li>
+                <li>Left Knee Length: <span id="left_knee_length"></span></li>
+                <li>Right Arm Length: <span id="right_arm_length"></span></li>
+                <li>Right Thigh Length: <span id="right_thigh_length"></span></li>
+                <li>Right Knee Length: <span id="right_knee_length"></span></li>
+                <li>Shoulder Length: <span id="shoulder_length"></span></li>
+                <li>Chest Circumference: <span id="chest_circumference"></span></li>
+                <li>Waist Length: <span id="waist_length"></span></li>
+                <li>Waist Circumference: <span id="waist_circumference"></span></li>
+                <li>Sitting Height: <span id="sitting_height"></span></li>
+                <li>Foot Length: <span id="foot_length"></span></li>
+            </ul>
+        </div>
+
+
+    
+</body>
+
+</html>
